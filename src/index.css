@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@utility black-button {
+  @apply bg-gray-900 inline-block text-white px-12 py-3.5 rounded-3xl text-sm font-medium hover:bg-gray-800 hover:scale-105 transition duration-300;
+}
+
+@utility blue-button {
+  @apply bg-indigo-600 inline-block text-white px-14 py-4.5 rounded-3xl text-sm font-medium hover:bg-indigo-500 hover:text-white hover:scale-102 transition duration-300 z-10;
+}
+
+@utility rounded-button {
+  @apply border-2 w-12 h-12 shrink-0 grow-0 rounded-full;
+}
+
+@utility inverted-rounded-hero {
+  @apply absolute bg-transparent w-10 h-10 border-b-8 border-white;
+}
+
+@utility sub-text {
+  @apply text-lg font-light text-gray-700 font-stretch-condensed;
+}
