@@ -1,74 +1,119 @@
 import {
   MapPinIcon,
-  MapIcon,
-  GlobeEuropeAfricaIcon,
-} from "@heroicons/react/20/solid";
+  ChatBubbleLeftRightIcon,
+  ClipboardDocumentCheckIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const features = [
   {
-    name: "Discover Your Dream Destination",
+    name: "Choose Your Destination",
     description:
-      "Explore breathtaking locations and uncover hidden gems tailored to your wanderlust. Your adventure begins here.",
+      "Browse our curated travel packages or tell us your dream destination. Our expert team will help you discover the best places, hidden gems, and unique experiences tailored to your interests. Start planning your next adventure with confidence and ease, knowing you'll get the most out of your journey.",
     icon: MapPinIcon,
   },
   {
-    name: "Effortless Trip Booking",
+    name: "Talk to a Travel Expert",
     description:
-      "Seamlessly plan your journey with our user-friendly booking system. Your next adventure is just a click away.",
-    icon: GlobeEuropeAfricaIcon,
+      "Connect instantly with our experienced travel consultants who are ready to answer your questions, provide personalized recommendations, and design a trip that fits your budget, schedule, and style. Enjoy a seamless planning process with real human support every step of the way.",
+    icon: ChatBubbleLeftRightIcon,
   },
   {
-    name: "Embark on Your Adventure",
+    name: "Customize & Confirm",
     description:
-      "]]Pack your bags and set off on a journey of a lifetime. Memories await at every destination.",
-    icon: MapIcon,
+      "Fine-tune your itinerary, select your favorite activities, and confirm your booking with total peace of mind. We offer flexible options and transparent pricing, so you can create the perfect trip that matches your expectations and needs.",
+    icon: ClipboardDocumentCheckIcon,
+  },
+  {
+    name: "Pack & Travel",
+    description:
+      "Relax and get ready for your trip! We handle all the details, from reservations to support during your journey, so you can focus on enjoying every moment. Travel with confidence, knowing our team is always available for assistance.",
+    icon: PaperAirplaneIcon,
   },
 ];
 
 export const Steps = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
-    <div className="overflow-hidden bg-white py-24 sm:py-32">
-      <div className="mx-auto w-5/6 px-6 lg:px-8">
-        <div className="mb-10 text-center">
-          <h2 className="text-base/7 font-semibold text-indigo-600">
-            Our Steps
-          </h2>
-          <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
-            Journey To The Skies Made Simple!
-          </p>
-          <p className="mt-2 sub-text">
-            Traveling is a wonderful way to explore new cultures, meet new
-            people, and create lasting memories.
-          </p>
-        </div>
-
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2 items-center">
-          <div className="lg:pt-4 lg:pr-8 self-center">
-            <div className="lg:max-w-lg">
-              <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 lg:max-w-none">
-                {features.map((feature) => (
-                  <div key={feature.name} className="relative pl-9">
-                    <dt className="inline font-semibold text-gray-900">
-                      <feature.icon
-                        aria-hidden="true"
-                        className="absolute top-1 left-1 size-5 text-indigo-600"
-                      />
+    <section className="flex justify-center mt-12 flex-col gap-5 w-5/6 mx-auto">
+      <div className="text-center">
+        <small className="text-indigo-600 text-base">How it works</small>
+        <h3 className="header-text">Plan Your Trip In 4 Simple Steps</h3>
+        <p className="sub-text">
+          Discover, customize and travel the world with ease.
+        </p>
+      </div>
+      <div style={{ height: "420px" }} className="relative w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-4 items-end h-full">
+          {features.map((feature, index) => (
+            <div
+              key={feature.name}
+              className={`group flex flex-col justify-between transition-all duration-300 ease-out p-10 rounded-t-4xl cursor-pointer origin-bottom text-left absolute md:static lg:static w-full md:w-auto lg:w-auto
+                ${
+                  index === activeIndex
+                    ? "bg-indigo-600 text-white scale-105 -translate-y-2 rounded-4xl h-full z-10"
+                    : "bg-gray-100 hover:bg-indigo-600 hover:text-white h-2/3 z-0"
+                }`}
+              style={{
+                bottom: 0,
+                height: index === activeIndex ? "100%" : "66%",
+              }}
+              onMouseEnter={() => setActiveIndex(index)}
+            >
+              {index !== activeIndex ? (
+                <>
+                  <div className="flex flex-col h-full justify-between">
+                    <feature.icon
+                      className="h-10 w-10 transition-colors duration-300 text-indigo-600 group-hover:text-white mb-0 self-start border-2 rounded-full p-2"
+                      aria-hidden="true"
+                    />
+                    <h3 className="text-xl font-semibold mt-auto self-start">
                       {feature.name}
-                    </dt>{" "}
-                    <dd className="inline">{feature.description}</dd>
+                    </h3>
                   </div>
-                ))}
-              </dl>
+                </>
+              ) : (
+                <>
+                  <feature.icon
+                    className="h-8 w-8 transition-colors duration-300 text-white mb-2"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-xl font-semibold mt-2">{feature.name}</h3>
+                  <p className="mt-2">{feature.description}</p>
+                  <a
+                    href="#"
+                    className="mt-6 text-white font-bold tracking-widest uppercase flex items-center gap-2 group/cta transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    WhatsApp
+                    <span className="inline-block transition-transform duration-300 translate-x-0 opacity-0 group-hover/cta:translate-x-2 group-hover/cta:opacity-100">
+                      {/* Flecha derecha SVG */}
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7 5L12 10L7 15"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </>
+              )}
             </div>
-          </div>
-
-          <img
-            alt="Picture of a Tourist Destination"
-            src="/Turismo.png"
-            className="h-[30rem] rounded-4xl sm:h-[30rem] md:-ml-4 lg:-ml-0 object-cover"
-          />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

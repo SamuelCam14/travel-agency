@@ -19,3 +19,7 @@
 @utility sub-text {
   @apply text-lg font-light text-gray-700 font-stretch-condensed;
 }
+
+@utility header-text {
+  @apply text-3xl font-semibold text-gray-900 font-stretch-condensed;
+}

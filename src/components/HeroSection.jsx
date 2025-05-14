@@ -5,19 +5,37 @@ export const HeroSection = () => {
 
   const contentData = {
     1: {
-      subtitle: "ELEVATE YOUR TRAVEL JOURNEY",
-      title: "Experience The Magic Of Flight!",
-      buttonText: "Book A Trip Now",
+      subtitle: "TAILORED TRAVEL PACKAGES",
+      title: "Your Next Adventure Starts Here",
+      buttonText: "Book A Plan Now",
     },
     2: {
-      subtitle: "DISCOVER NEW HORIZONS",
-      title: "Unforgettable Adventures Await!",
-      buttonText: "Explore Destinations",
+      subtitle: "EXPLORE WORLDWIDE DESTINATIONS",
+      title: "Unforgettable Trips, Designed For You",
+      buttonText: "Find Your Destination",
     },
     3: {
-      subtitle: "LUXURY TRAVEL MADE SIMPLE",
-      title: "Comfort At Every Altitude",
-      buttonText: "View Premium Options",
+      subtitle: "PREMIUM & PERSONALIZED EXPERIENCES",
+      title: "Luxury, Comfort, and Custom Travel Plans",
+      buttonText: "Explore Premium Packages",
+    },
+  };
+
+  const contentDataES = {
+    1: {
+      subtitle: "PAQUETES DE VIAJE PERSONALIZADOS",
+      title: "Tu Próxima Aventura Comienza Aquí",
+      buttonText: "Planear Mi Viaje",
+    },
+    2: {
+      subtitle: "DESTINOS POR TODO EL MUNDO",
+      title: "Viajes Inolvidables, Hechos a Tu Medida",
+      buttonText: "Buscar Destinos",
+    },
+    3: {
+      subtitle: "EXPERIENCIAS PREMIUM Y A TU MEDIDA",
+      title: "Lujo, Comodidad y Planes de Viaje Personalizados",
+      buttonText: "Explorar Paquetes Premium",
     },
   };
 
