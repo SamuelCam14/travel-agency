@@ -21,5 +21,5 @@
 }
 
 @utility header-text {
-  @apply text-3xl font-semibold text-gray-900 font-stretch-condensed;
+  @apply text-2xl font-semibold text-gray-900 sm:text-3xl font-stretch-condensed;
 }

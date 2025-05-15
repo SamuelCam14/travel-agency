@@ -42,7 +42,7 @@ export const Steps = () => {
         <small className="text-indigo-600 text-base font-semibold">
           How it works
         </small>
-        <h3 className="text-3xl font-bold mt-1 text-gray-900 sm:text-4xl">
+        <h3 className="header-text mt-1 text-3xl md:text-4xl">
           Plan Your Trip In 4 Simple Steps
         </h3>
         <p className="mt-3 text-lg text-gray-600">
