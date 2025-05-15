@@ -10,25 +10,25 @@ const features = [
   {
     name: "Choose Your Destination",
     description:
-      "Browse our curated travel packages or tell us your dream destination. Our expert team will help you discover the best places, hidden gems, and unique experiences tailored to your interests. Start planning your next adventure with confidence and ease, knowing you'll get the most out of your journey.",
+      "Explore curated packages or share your dream trip. We’ll guide you to the best places and experiences.",
     icon: MapPinIcon,
   },
   {
     name: "Talk to a Travel Expert",
     description:
-      "Connect instantly with our experienced travel consultants who are ready to answer your questions, provide personalized recommendations, and design a trip that fits your budget, schedule, and style. Enjoy a seamless planning process with real human support every step of the way.",
+      "Chat with our team on WhatsApp. Get fast, personalized help to plan the perfect getaway.",
     icon: ChatBubbleLeftRightIcon,
   },
   {
     name: "Customize & Confirm",
     description:
-      "Fine-tune your itinerary, select your favorite activities, and confirm your booking with total peace of mind. We offer flexible options and transparent pricing, so you can create the perfect trip that matches your expectations and needs.",
+      "Adjust your trip to match your style. Enjoy flexible options, transparent pricing, and expert guidance.",
     icon: ClipboardDocumentCheckIcon,
   },
   {
     name: "Pack & Travel",
     description:
-      "Relax and get ready for your trip! We handle all the details, from reservations to support during your journey, so you can focus on enjoying every moment. Travel with confidence, knowing our team is always available for assistance.",
+      "We handle the logistics. You relax and enjoy every moment—knowing we’ve got your back.",
     icon: PaperAirplaneIcon,
   },
 ];
@@ -37,63 +37,61 @@ export const Steps = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="flex justify-center mt-12 flex-col gap-5 w-5/6 mx-auto">
-      <div className="text-center">
-        <small className="text-indigo-600 text-base">How it works</small>
-        <h3 className="header-text">Plan Your Trip In 4 Simple Steps</h3>
-        <p className="sub-text">
+    <section className="flex justify-center mt-12 flex-col gap-5 w-11/12 sm:w-5/6 mx-auto">
+      <div className="text-center px-4">
+        <small className="text-indigo-600 text-base font-semibold">
+          How it works
+        </small>
+        <h3 className="text-3xl font-bold mt-1 text-gray-900 sm:text-4xl">
+          Plan Your Trip In 4 Simple Steps
+        </h3>
+        <p className="mt-3 text-lg text-gray-600">
           Discover, customize and travel the world with ease.
         </p>
       </div>
-      <div style={{ height: "420px" }} className="relative w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-4 items-end h-full">
+
+      <div className="mt-10 md:h-[300px]">
+        {" "}
+        {/* Ajuste de altura */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-full md:items-start">
           {features.map((feature, index) => (
             <div
               key={feature.name}
-              className={`group flex flex-col justify-between transition-all duration-300 ease-out p-10 rounded-t-4xl cursor-pointer origin-bottom text-left absolute md:static lg:static w-full md:w-auto lg:w-auto
+              className={`
+                group flex flex-col justify-between
+                transition-all duration-300 ease-out p-6 rounded-[2rem] cursor-pointer text-left {/* Redondeo cambiado a 2rem (equivalente a 4xl) */}
                 ${
                   index === activeIndex
-                    ? "bg-indigo-600 text-white scale-105 -translate-y-2 rounded-4xl h-full z-10"
-                    : "bg-gray-100 hover:bg-indigo-600 hover:text-white h-2/3 z-0"
-                }`}
-              style={{
-                bottom: 0,
-                height: index === activeIndex ? "100%" : "66%",
-              }}
+                    ? "bg-indigo-600 text-white scale-105 z-10 min-h-[280px] md:h-full" // Ajuste de altura para el elemento activo
+                    : "bg-gray-100 hover:bg-indigo-600 hover:text-white min-h-[180px] md:h-[250px] z-0" // Ajuste de altura para los elementos inactivos
+                }
+              `}
               onMouseEnter={() => setActiveIndex(index)}
+              onClick={() => setActiveIndex(index)}
             >
-              {index !== activeIndex ? (
-                <>
-                  <div className="flex flex-col h-full justify-between">
-                    <feature.icon
-                      className="h-10 w-10 transition-colors duration-300 text-indigo-600 group-hover:text-white mb-0 self-start border-2 rounded-full p-2"
-                      aria-hidden="true"
-                    />
-                    <h3 className="text-xl font-semibold mt-auto self-start">
-                      {feature.name}
-                    </h3>
-                  </div>
-                </>
-              ) : (
+              {index === activeIndex ? (
                 <>
                   <feature.icon
-                    className="h-8 w-8 transition-colors duration-300 text-white mb-2"
+                    className="h-8 w-8 transition-colors duration-300 text-white mb-4 self-start"
                     aria-hidden="true"
                   />
-                  <h3 className="text-xl font-semibold mt-2">{feature.name}</h3>
-                  <p className="mt-2">{feature.description}</p>
+                  <h3 className="text-xl font-semibold text-white self-start">
+                    {feature.name}
+                  </h3>
+                  <p className="mt-3 text-sm text-indigo-100 flex-grow self-start w-full">
+                    {feature.description}
+                  </p>
                   <a
-                    href="#"
-                    className="mt-6 text-white font-bold tracking-widest uppercase flex items-center gap-2 group/cta transition-colors duration-200"
+                    href="https://wa.me/YOURPHONENUMBER?text=I'm%20interested%20in%20planning%20my%20trip!"
+                    className="mt-auto pt-4 text-white font-bold tracking-wider uppercase flex items-center gap-2 group/cta transition-colors duration-200 self-start text-sm"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     WhatsApp
-                    <span className="inline-block transition-transform duration-300 translate-x-0 opacity-0 group-hover/cta:translate-x-2 group-hover/cta:opacity-100">
-                      {/* Flecha derecha SVG */}
+                    <span className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">
                       <svg
-                        width="18"
-                        height="18"
+                        width="16"
+                        height="16"
                         viewBox="0 0 20 20"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -101,13 +99,23 @@ export const Steps = () => {
                         <path
                           d="M7 5L12 10L7 15"
                           stroke="currentColor"
-                          strokeWidth="2"
+                          strokeWidth="2.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                       </svg>
                     </span>
                   </a>
+                </>
+              ) : (
+                <>
+                  <feature.icon
+                    className="h-10 w-10 transition-colors duration-300 text-indigo-600 group-hover:text-white self-start border-2 border-indigo-200 group-hover:border-indigo-500 rounded-full p-2"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-xl font-semibold text-gray-800 group-hover:text-white self-start mt-auto">
+                    {feature.name}
+                  </h3>
                 </>
               )}
             </div>
