@@ -38,7 +38,7 @@ export const ModalTrigger = ({ children, className }) => {
   return (
     <button
       className={cn(
-        "text-black text-center relative overflow-hidden", // Eliminado dark:text-white, redondeo se aplicará donde se use
+        "text-black text-center relative overflow-hidden",
         className
       )}
       onClick={() => setOpen(true)}
@@ -118,7 +118,6 @@ export const ModalContent = ({ children, className }) => {
       )}
     >
       {" "}
-      {/* Ajustado color de texto base */}
       {children}
     </div>
   );
@@ -133,7 +132,6 @@ export const ModalFooter = ({ children, className }) => {
       )}
     >
       {" "}
-      {/* Ajustado bg, border y rounded-b-4xl */}
       {children}
     </div>
   );
@@ -174,7 +172,6 @@ const CloseIcon = () => {
         className="text-gray-600 h-5 w-5 group-hover:scale-110 transition-transform"
       >
         {" "}
-        {/* Ajustado color icono */}
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M18 6l-12 12" />
         <path d="M6 6l12 12" />

@@ -5,6 +5,7 @@ import { PopularDestination } from "../components/PopularDestination";
 import { LogoClouds } from "../components/LogoClouds";
 import { Discount } from "../components/Discount";
 import { Stats } from "../components/Stats";
+import { InfiniteGallery } from "../components/InfiniteGallery";
 
 export const Home = () => {
   return (
@@ -13,6 +14,7 @@ export const Home = () => {
       <HeroSection />
       <LogoClouds />
       <PopularDestination />
+      <InfiniteGallery />
       <Steps />
       <Discount />
       <Stats />

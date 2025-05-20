@@ -6,7 +6,7 @@ const data = [
 
 export const Stats = () => {
   return (
-    <div className="bg-white w-5/6 mx-auto mt-18">
+    <div className="bg-white w-5/6 mx-auto mt-10 md:mt-18">
       <div className="mx-auto">
         <dl className="grid grid-cols-3 text-center gap-2 md:gap-8">
           {data.map((data) => (
