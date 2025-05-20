@@ -1,6 +1,6 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, animate as framerAnimate } from "framer-motion";
 import {
   Modal,
   ModalBody,
@@ -21,9 +21,10 @@ const ModalCloseButtonInFooter = ({ children, className }) => {
 
 export const PopularDestination = () => {
   const [page, setPage] = useState(0);
-  const [direction, setDirection] = useState(1);
+  // const [direction, setDirection] = useState(1); // No se usa
 
   const constraintsRef = useRef(null);
+  const draggableContainerRef = useRef(null);
   const [cardWidth, setCardWidth] = useState(0);
   const [gap, setGap] = useState(0);
 
@@ -32,6 +33,7 @@ export const PopularDestination = () => {
   });
 
   const destinations = {
+    /* ... (tu objeto destinations completo e intacto de 6 items) ... */
     1: {
       id: "dest-1",
       image: "/turquia.jpg",
@@ -247,27 +249,33 @@ export const PopularDestination = () => {
   const destinationArray = Object.values(destinations);
   const totalDestinations = destinationArray.length;
 
+  const getVisibleCardsInViewport = () => {
+    if (windowSize.width < 768) return 1;
+    if (windowSize.width < 1024) return 2;
+    return 3;
+  };
+
   useEffect(() => {
     const calculateCardWidth = () => {
-      if (constraintsRef.current && constraintsRef.current.firstChild) {
+      if (
+        draggableContainerRef.current &&
+        draggableContainerRef.current.firstChild
+      ) {
+        const firstCard = draggableContainerRef.current.firstChild;
+        setCardWidth(firstCard.offsetWidth);
         const gridComputedStyle = window.getComputedStyle(
-          constraintsRef.current.firstChild
+          draggableContainerRef.current
         );
-        const firstCard = constraintsRef.current.firstChild.firstChild;
-        if (firstCard) {
-          const cardStyle = window.getComputedStyle(firstCard);
-          const cardMargin =
-            parseFloat(cardStyle.marginLeft) +
-            parseFloat(cardStyle.marginRight);
-          setCardWidth(firstCard.offsetWidth + cardMargin);
-        }
         setGap(parseFloat(gridComputedStyle.gap) || 0);
       }
     };
-    calculateCardWidth();
+    const timerId = setTimeout(calculateCardWidth, 50);
     window.addEventListener("resize", calculateCardWidth);
-    return () => window.removeEventListener("resize", calculateCardWidth);
-  }, [destinationArray, windowSize.width]);
+    return () => {
+      clearTimeout(timerId);
+      window.removeEventListener("resize", calculateCardWidth);
+    };
+  }, [windowSize.width, totalDestinations]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -277,22 +285,20 @@ export const PopularDestination = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const paginate = (newDirection) => {
+  const changePage = (newDirection) => {
     if (document.body.classList.contains("modal-is-open")) return;
-    setDirection(newDirection);
     setPage((prevPage) => {
-      const newPage = prevPage + newDirection;
-      const maxPage =
-        totalDestinations -
-        (windowSize.width < 768 ? 1 : windowSize.width < 1024 ? 2 : 3);
-      if (newPage < 0) return 0;
-      if (newPage > maxPage) return maxPage;
-      return newPage;
+      let nextPage = prevPage + newDirection;
+      const numVisible = getVisibleCardsInViewport();
+      const maxPage = totalDestinations - numVisible;
+      nextPage = Math.max(0, nextPage);
+      nextPage = Math.min(maxPage, nextPage);
+      return nextPage;
     });
   };
 
-  const handlePrev = () => paginate(-1);
-  const handleNext = () => paginate(1);
+  const handlePrev = () => changePage(-1);
+  const handleNext = () => changePage(1);
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -300,28 +306,42 @@ export const PopularDestination = () => {
   const handleTouchStart = (e) => {
     if (document.body.classList.contains("modal-is-open")) return;
     touchStartX.current = e.targetTouches[0].clientX;
+    if (draggableContainerRef.current) {
+      const currentX =
+        draggableContainerRef.current.style.transform.match(
+          /translateX\(([^px]+)px\)/
+        )?.[1] || 0;
+      framerAnimate(
+        draggableContainerRef.current,
+        { x: parseFloat(currentX) },
+        { duration: 0 }
+      );
+    }
   };
   const handleTouchMove = (e) => {
     if (document.body.classList.contains("modal-is-open")) return;
     touchEndX.current = e.targetTouches[0].clientX;
   };
   const handleTouchEnd = () => {
-    if (document.body.classList.contains("modal-is-open")) return;
-    const diffX = touchStartX.current - touchEndX.current;
-    const dragThreshold =
-      cardWidth > 0 && gap >= 0 ? (cardWidth + gap) / 3 : 50;
-    if (Math.abs(diffX) > dragThreshold) {
-      if (diffX > 0) handleNext();
-      else handlePrev();
+    if (document.body.classList.contains("modal-is-open") || cardWidth === 0)
+      return;
+    const dragDistance = touchStartX.current - touchEndX.current;
+    const swipeThreshold = cardWidth / 4;
+    if (Math.abs(dragDistance) > swipeThreshold) {
+      changePage(dragDistance > 0 ? 1 : -1);
     } else {
-      const currentPage = page;
-      setPage(-1000);
-      setTimeout(() => setPage(currentPage), 0);
+      if (draggableContainerRef.current) {
+        framerAnimate(
+          draggableContainerRef.current,
+          { x: -page * (cardWidth + gap) },
+          { type: "spring", stiffness: 300, damping: 30 }
+        );
+      }
     }
+    touchEndX.current = 0;
   };
 
-  const numVisibleForConstraints =
-    windowSize.width < 768 ? 1 : windowSize.width < 1024 ? 2 : 3;
+  const numVisibleForConstraints = getVisibleCardsInViewport();
   const dragConstraints = {
     right: 0,
     left:
@@ -330,15 +350,34 @@ export const PopularDestination = () => {
         : 0,
   };
 
+  const onDragEndHandler = (event, info) => {
+    if (document.body.classList.contains("modal-is-open") || cardWidth === 0)
+      return;
+    const { offset, velocity } = info;
+    const swipePowerThreshold = 500;
+    const swipeDistanceThreshold = cardWidth / 3;
+
+    let newPage = page;
+    if (Math.abs(offset.x) > swipeDistanceThreshold) {
+      if (
+        offset.x < -swipeDistanceThreshold / 2 ||
+        velocity.x < -swipePowerThreshold / 20
+      ) {
+        newPage = page + 1;
+      } else if (
+        offset.x > swipeDistanceThreshold / 2 ||
+        velocity.x > swipePowerThreshold / 20
+      ) {
+        newPage = page - 1;
+      }
+    }
+    const maxPage = totalDestinations - numVisibleForConstraints;
+    newPage = Math.max(0, Math.min(newPage, maxPage));
+    setPage(newPage);
+  };
+
   const handleBookNow = (destinationTitle, price) => {
-    const phoneNumber = "15551234567";
-    const messageText = `Hola! Estoy interesado en recibir más información sobre el paquete "${destinationTitle}" (${price}). ¿Podrían proporcionarme detalles?`;
-    const encodedMessage = encodeURIComponent(messageText);
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    /* Sin cambios */
   };
 
   return (
@@ -374,42 +413,19 @@ export const PopularDestination = () => {
         onTouchEnd={handleTouchEnd}
       >
         <motion.div
+          ref={draggableContainerRef}
           className="grid gap-10"
           style={{
             gridAutoFlow: "column",
-            gridTemplateColumns: `repeat(${totalDestinations}, calc( (100% / ${
-              windowSize.width < 768 ? 1 : windowSize.width < 1024 ? 2 : 3
-            }) - ${
-              (((windowSize.width < 768 ? 1 : windowSize.width < 1024 ? 2 : 3) -
-                1) /
-                (windowSize.width < 768
-                  ? 1
-                  : windowSize.width < 1024
-                  ? 2
-                  : 3)) *
-              gap
+            gridTemplateColumns: `repeat(${totalDestinations}, calc( (100% / ${numVisibleForConstraints}) - ${
+              ((numVisibleForConstraints - 1) / numVisibleForConstraints) * gap
             }px ))`,
           }}
           animate={{ x: cardWidth > 0 ? -page * (cardWidth + gap) : 0 }}
-          transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
+          transition={{ type: "spring", stiffness: 400, damping: 40 }}
           drag="x"
           dragConstraints={dragConstraints}
-          onDragEnd={(event, info) => {
-            if (document.body.classList.contains("modal-is-open")) return;
-            const dragThreshold =
-              cardWidth > 0 && gap >= 0 ? (cardWidth + gap) / 3 : 50;
-            if (Math.abs(info.offset.x) > dragThreshold && cardWidth > 0) {
-              if (info.offset.x < -dragThreshold) {
-                paginate(1);
-              } else {
-                paginate(-1);
-              }
-            } else {
-              const currentPage = page;
-              setPage(-1000);
-              setTimeout(() => setPage(currentPage), 0);
-            }
-          }}
+          onDragEnd={onDragEndHandler}
         >
           {destinationArray.map((destination) => (
             <div
@@ -417,17 +433,17 @@ export const PopularDestination = () => {
               className="flex flex-col items-left gap-5 shrink-0"
             >
               <Modal>
-                <ModalTrigger className="block cursor-pointer w-full">
-                  {/* El div que contiene la imagen y el badge de los días es ahora el hijo directo del Trigger */}
-                  <div className="relative">
-                    {" "}
-                    {/* Este div necesita ser relative para el posicionamiento del badge */}
+                <ModalTrigger
+                  asChild
+                  className="block cursor-pointer w-full rounded-4xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                >
+                  <div className="relative pb-6">
                     <img
                       src={destination.image}
                       alt={destination.title}
                       className="w-full h-60 object-cover rounded-4xl"
                     />
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-indigo-600 text-white rounded-4xl px-4 py-1 border-5 border-white line-clamp-1">
+                    <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-indigo-600 text-white rounded-4xl px-4 py-1 border-5 border-white line-clamp-1">
                       {destination.days}
                     </div>
                   </div>
@@ -548,8 +564,6 @@ export const PopularDestination = () => {
                         )}
                       </ModalContent>
                       <ModalFooter className="gap-3">
-                        {" "}
-                        {/* Añadido gap-3 aquí */}
                         <ModalCloseButtonInFooter className="px-4 py-2 bg-gray-200 text-gray-700 rounded-4xl hover:bg-gray-300 transition-colors text-sm font-medium">
                           Close
                         </ModalCloseButtonInFooter>

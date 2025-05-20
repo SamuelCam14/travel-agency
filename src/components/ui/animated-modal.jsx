@@ -38,7 +38,7 @@ export const ModalTrigger = ({ children, className }) => {
   return (
     <button
       className={cn(
-        "pb-4 text-black text-center relative overflow-hidden", // Eliminado dark:text-white, redondeo se aplicará donde se use
+        "text-black text-center relative overflow-hidden", // Eliminado dark:text-white, redondeo se aplicará donde se use
         className
       )}
       onClick={() => setOpen(true)}
