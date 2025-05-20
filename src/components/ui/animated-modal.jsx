@@ -1,4 +1,3 @@
-// src/components/ui/animated-modal.jsx
 import React, {
   createContext,
   useContext,
@@ -6,32 +5,17 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { AnimatePresence, motion } from "framer-motion"; // Usamos framer-motion directamente
-import { cn } from "../../lib/utils"; // Ajusta esta ruta si tu utils.js está en otro lugar
-import { useOutsideClick } from "../../hooks/useOutsideClick"; // Ajusta esta ruta
+import ReactDOM from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "../../lib/utils";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 const ModalContext = createContext(undefined);
 
 export const ModalProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
-  const [modalData, setModalData] = useState(null); // Para pasar datos al modal
-
-  // Modificamos setOpen para aceptar datos opcionales
-  const openModal = (data = null) => {
-    setModalData(data);
-    setOpen(true);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-    // Opcional: limpiar modalData al cerrar si es necesario
-    // setModalData(null);
-  };
-
   return (
-    <ModalContext.Provider
-      value={{ open, setOpen: openModal, closeModal, modalData }}
-    >
+    <ModalContext.Provider value={{ open, setOpen }}>
       {children}
     </ModalContext.Provider>
   );
@@ -45,55 +29,48 @@ export const useModal = () => {
   return context;
 };
 
-// Modal ahora solo envuelve el Provider.
-// Necesitaremos un <Modal> por cada modal que queramos abrir con datos distintos,
-// O una sola instancia global si el contenido se actualiza dinámicamente.
-// Para el caso de múltiples triggers en un carrusel, cada uno necesitará su propio <Modal>
-// O, una estrategia más avanzada: un único Modal global y pasamos los datos al abrirlo.
-// Vamos a intentar con la estrategia de que <Modal> sea solo el Provider por ahora
-// y el <ModalTrigger> pase los datos al contexto.
 export function Modal({ children }) {
   return <ModalProvider>{children}</ModalProvider>;
 }
 
-export const ModalTrigger = ({ children, className, data }) => {
-  // `data` es la nueva prop
-  const { setOpen } = useModal(); // setOpen ahora es nuestra función `openModal`
+export const ModalTrigger = ({ children, className }) => {
+  const { setOpen } = useModal();
   return (
     <button
       className={cn(
-        "px-4 py-2 rounded-md text-black dark:text-white text-center relative overflow-hidden",
+        "pb-4 text-black text-center relative overflow-hidden", // Eliminado dark:text-white, redondeo se aplicará donde se use
         className
       )}
-      onClick={() => setOpen(data)} // Pasamos `data` al abrir
+      onClick={() => setOpen(true)}
     >
       {children}
     </button>
   );
 };
 
-export const ModalBody = ({ children, className }) => {
-  const { open, closeModal, modalData } = useModal(); // modalData disponible aquí
+export const ModalBody = ({ children, className, data: modalDataProp }) => {
+  const { open, setOpen } = useModal();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     if (open) {
       document.body.style.overflow = "hidden";
+      document.body.classList.add("modal-is-open");
     } else {
       document.body.style.overflow = "auto";
+      document.body.classList.remove("modal-is-open");
     }
-    // Cleanup en desmontaje o cuando `open` cambia a false
     return () => {
-      if (!open) {
-        // Asegurarse de que se restaure si el modal se desmonta estando abierto
-        document.body.style.overflow = "auto";
-      }
+      document.body.style.overflow = "auto";
+      document.body.classList.remove("modal-is-open");
     };
   }, [open]);
 
   const modalRef = useRef(null);
-  useOutsideClick(modalRef, () => closeModal());
+  useOutsideClick(modalRef, () => setOpen(false));
 
-  return (
+  const modalContentRender = (
     <AnimatePresence>
       {open && (
         <motion.div
@@ -102,38 +79,46 @@ export const ModalBody = ({ children, className }) => {
           exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
           className="fixed [perspective:800px] [transform-style:preserve-3d] inset-0 h-full w-full flex items-center justify-center z-50"
         >
-          <Overlay /> {/* Usamos el Overlay definido abajo */}
+          <Overlay />
           <motion.div
             ref={modalRef}
             className={cn(
-              "min-h-[50%] w-[90%] md:w-auto max-h-[90%] md:max-w-[60%] lg:max-w-[50%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
+              "min-h-[50%] w-[90%] md:w-auto max-h-[90%] md:max-w-[60%] lg:max-w-[50%] bg-white border border-gray-200 rounded-4xl relative z-50 flex flex-col flex-1 overflow-hidden shadow-2xl", // bg-white, rounded-4xl, border-gray-200, shadow-2xl. Eliminadas clases dark.
               className
             )}
             initial={{ opacity: 0, scale: 0.5, rotateX: 40, y: 40 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, rotateX: 10 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }} // Ajustado damping
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
           >
-            <CloseIcon /> {/* Usamos CloseIcon definido abajo */}
-            {/* Renderizamos children, que podría ser una función para acceder a modalData */}
-            {typeof children === "function" ? children(modalData) : children}
+            <CloseIcon />
+            {typeof children === "function"
+              ? children(modalDataProp)
+              : children}
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
+
+  if (!isMounted) {
+    return null;
+  }
+  return ReactDOM.createPortal(modalContentRender, document.body);
 };
 
 export const ModalContent = ({ children, className }) => {
   return (
     <div
       className={cn(
-        "flex flex-col flex-1 p-6 md:p-8 overflow-y-auto",
+        "flex flex-col flex-1 p-6 md:p-8 overflow-y-auto text-gray-700",
         className
       )}
     >
       {" "}
-      {/* Añadido overflow-y-auto */}
+      {/* Ajustado color de texto base */}
       {children}
     </div>
   );
@@ -143,16 +128,17 @@ export const ModalFooter = ({ children, className }) => {
   return (
     <div
       className={cn(
-        "flex justify-end p-4 bg-gray-100 dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-800",
+        "flex justify-end p-4 bg-gray-50 border-t border-gray-200 rounded-b-4xl",
         className
       )}
     >
+      {" "}
+      {/* Ajustado bg, border y rounded-b-4xl */}
       {children}
     </div>
   );
 };
 
-// Componentes internos (Overlay, CloseIcon)
 const Overlay = ({ className }) => {
   return (
     <motion.div
@@ -162,17 +148,17 @@ const Overlay = ({ className }) => {
       className={cn(
         "fixed inset-0 h-full w-full bg-black bg-opacity-50 z-40",
         className
-      )} // z-index menor que el modal
+      )}
     ></motion.div>
   );
 };
 
 const CloseIcon = () => {
-  const { closeModal } = useModal();
+  const { setOpen } = useModal();
   return (
     <button
-      onClick={() => closeModal()}
-      className="absolute top-4 right-4 p-1 rounded-full group hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors z-50"
+      onClick={() => setOpen(false)}
+      className="absolute top-4 right-4 p-1 rounded-full group hover:bg-gray-100 transition-colors z-50" // Eliminado dark:hover
       aria-label="Close modal"
     >
       <svg
@@ -185,8 +171,10 @@ const CloseIcon = () => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-black dark:text-white h-5 w-5 group-hover:scale-110 transition-transform"
+        className="text-gray-600 h-5 w-5 group-hover:scale-110 transition-transform"
       >
+        {" "}
+        {/* Ajustado color icono */}
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M18 6l-12 12" />
         <path d="M6 6l12 12" />

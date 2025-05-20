@@ -75,7 +75,7 @@ export const Navbar = () => {
           mx-auto transition-all duration-300 ease-in-out
           ${
             isScrolled
-              ? "w-full md:w-5/6 bg-white/90 backdrop-blur-xs rounded-4xl shadow-xl"
+              ? "w-full md:w-5/6 max-w-[1500px] bg-white/90 backdrop-blur-xs rounded-4xl shadow-xl"
               : "w-full bg-white"
           }
         `}

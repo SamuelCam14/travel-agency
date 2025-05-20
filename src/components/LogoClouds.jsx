@@ -2,11 +2,11 @@ export const LogoClouds = () => {
   return (
     <div className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <h2 className="text-center text-lg/8 font-semibold text-gray-900">
+        <h2 className="header-text text-center">
           Las mejores marcas confían en nuestra agencia de viajes para descubrir
           el mundo
         </h2>
-        <p className="mt-4 text-center text-base text-gray-600">
+        <p className="sub-text text-center mt-2">
           Expertos en experiencias únicas, destinos inolvidables y atención
           personalizada. Viaja seguro con los líderes en turismo.
         </p>
