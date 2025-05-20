@@ -1,15 +1,9 @@
-import { HeroSection } from "./components/HeroSection";
-import { Navbar } from "./components/Navbar";
-import { PopularDestination } from "./components/PopularDestination";
-import { Steps } from "./components/Steps";
+import { Home } from "./pages/Home";
 
 export const App = () => {
   return (
     <div className="text-gray-900">
-      <Navbar />
-      <HeroSection />
-      <PopularDestination />
-      <Steps />
+      <Home />
     </div>
   );
 };

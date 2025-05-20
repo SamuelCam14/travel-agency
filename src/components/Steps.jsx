@@ -51,9 +51,8 @@ export const Steps = () => {
       </div>
 
       <div className="mt-10 md:h-[300px]">
-        {" "}
         {/* Ajuste de altura */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-full md:items-start">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 h-full md:items-start">
           {features.map((feature, index) => (
             <div
               key={feature.name}

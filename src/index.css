@@ -17,7 +17,7 @@
 }
 
 @utility sub-text {
-  @apply text-lg font-light text-gray-700 font-stretch-condensed;
+  @apply text-base md:text-lg font-light text-gray-700 font-stretch-condensed;
 }
 
 @utility header-text {
