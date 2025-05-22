@@ -61,7 +61,7 @@ export const FAQ = () => {
                 {faq.question}
               </span>
               <span
-                className={`ml-4 transition-transform duration-300 text-indigo-600 ${
+                className={`ml-4 transition-transform duration-300 text-blue-600 ${
                   openIndex === idx ? "rotate-180" : "rotate-0"
                 }`}
               >

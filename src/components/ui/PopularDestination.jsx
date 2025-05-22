@@ -243,15 +243,16 @@ export const PopularDestination = ({ destinations }) => {
               <Modal>
                 <ModalTrigger
                   asChild
-                  className="block cursor-pointer w-full rounded-4xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                  className="block cursor-pointer w-full rounded-4xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
                   <div className="relative pb-6">
                     <img
                       src={destination.image}
                       alt={destination.title}
                       className="w-full h-60 object-cover rounded-4xl"
+                      loading="lazy"
                     />
-                    <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-indigo-600 text-white rounded-4xl px-4 py-1 border-5 border-white line-clamp-1">
+                    <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-blue-600 text-white rounded-4xl px-4 py-1 border-5 border-white line-clamp-1">
                       {destination.days}
                     </div>
                   </div>
@@ -266,7 +267,7 @@ export const PopularDestination = ({ destinations }) => {
                       {destination.description}
                     </p>
                   </div>
-                  <div className="flex items-center gap-1 bg-indigo-600 w-fit h-fit py-2 px-4 text-center rounded-4xl">
+                  <div className="flex items-center gap-1 bg-blue-600 w-fit h-fit py-2 px-4 text-center rounded-4xl">
                     <StarIcon
                       className="size-5 text-white"
                       aria-hidden="true"
@@ -275,7 +276,7 @@ export const PopularDestination = ({ destinations }) => {
                   </div>
                 </div>
 
-                <ModalTrigger className="w-full bg-indigo-600 text-white py-3 px-4 rounded-4xl hover:bg-indigo-700 transition-colors duration-300 mt-auto text-sm font-semibold">
+                <ModalTrigger className="w-full bg-blue-600 text-white py-3 px-4 rounded-4xl hover:bg-blue-700 transition-colors duration-300 mt-auto text-sm font-semibold">
                   Ver detalles del paquete
                 </ModalTrigger>
 
@@ -289,6 +290,7 @@ export const PopularDestination = ({ destinations }) => {
                               src={dataFromProp.mainImage}
                               alt={dataFromProp.destinationName}
                               className="w-full h-48 md:h-64 object-cover rounded-4xl mb-4"
+                              loading="lazy"
                             />
                             <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">
                               Aventura en {dataFromProp.destinationName}
@@ -296,7 +298,7 @@ export const PopularDestination = ({ destinations }) => {
                             <p className="text-gray-500 mb-1 text-sm">
                               {dataFromProp.duration}
                             </p>
-                            <p className="text-lg font-semibold text-indigo-600 mb-4">
+                            <p className="text-lg font-semibold text-blue-600 mb-4">
                               {dataFromProp.price}
                             </p>
                             {dataFromProp.galleryImages &&
@@ -315,6 +317,7 @@ export const PopularDestination = ({ destinations }) => {
                                             dataFromProp.destinationName
                                           } galería ${idx + 1}`}
                                           className="w-full h-24 object-cover rounded-2xl"
+                                          loading="lazy"
                                         />
                                       )
                                     )}
@@ -347,7 +350,7 @@ export const PopularDestination = ({ destinations }) => {
                                       key={`include-${idx}`}
                                       className="flex items-center gap-2 bg-gray-50 rounded-3xl px-3 py-2 shadow-sm transition-all duration-300"
                                     >
-                                      <CheckCircleIcon className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                                      <CheckCircleIcon className="w-5 h-5 text-blue-600 flex-shrink-0" />
                                       <span className="text-gray-700 text-sm">
                                         {item}
                                       </span>
@@ -391,7 +394,7 @@ export const PopularDestination = ({ destinations }) => {
                               dataFromProp.price
                             )
                           }
-                          className="px-4 py-2 bg-indigo-600 text-white rounded-4xl hover:bg-indigo-700 transition-colors text-sm font-medium"
+                          className="px-4 py-2 bg-blue-600 text-white rounded-4xl hover:bg-blue-700 transition-colors text-sm font-medium"
                         >
                           Reservar este viaje
                         </button>

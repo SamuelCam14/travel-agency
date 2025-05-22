@@ -7,6 +7,7 @@ import { Stats } from "../components/Stats";
 import { Carousel } from "../components/Carousel";
 import { FAQ } from "../components/FAQ";
 import { Footer } from "../components/Footer";
+import { MexicoDestinations } from "../components/MexicoDestinations";
 
 export const Home = () => {
   return (
@@ -16,6 +17,7 @@ export const Home = () => {
       <LogoClouds />
       <Carousel />
       <Steps />
+      <MexicoDestinations />
       <Discount />
       <Stats />
       <FAQ />

@@ -5,7 +5,7 @@
 }
 
 @utility blue-button {
-  @apply bg-indigo-600 inline-block text-white px-14 py-4.5 rounded-3xl text-sm font-medium hover:bg-indigo-500 hover:text-white hover:scale-102 transition duration-300 z-10;
+  @apply bg-blue-600 inline-block text-white px-14 py-4.5 rounded-3xl text-sm font-medium hover:bg-blue-500 hover:text-white hover:scale-102 transition duration-300 z-10;
 }
 
 @utility rounded-button {
@@ -22,4 +22,32 @@
 
 @utility header-text {
   @apply text-2xl font-semibold text-gray-900 sm:text-3xl font-stretch-condensed;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.3s forwards;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.3s forwards;
 }

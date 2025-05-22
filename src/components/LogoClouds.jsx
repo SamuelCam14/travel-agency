@@ -17,6 +17,7 @@ export const LogoClouds = () => {
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            loading="lazy"
           />
           <img
             alt="Riu Hotels Logo"
@@ -24,6 +25,7 @@ export const LogoClouds = () => {
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            loading="lazy"
           />
           <img
             alt="Oasis Hotels Logo"
@@ -31,6 +33,7 @@ export const LogoClouds = () => {
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            loading="lazy"
           />
           <img
             alt="Fiesta Americana Logo"
@@ -38,6 +41,7 @@ export const LogoClouds = () => {
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
+            loading="lazy"
           />
           <img
             alt="Palace Resorts Logo"
@@ -45,6 +49,7 @@ export const LogoClouds = () => {
             width={158}
             height={48}
             className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+            loading="lazy"
           />
         </div>
       </div>

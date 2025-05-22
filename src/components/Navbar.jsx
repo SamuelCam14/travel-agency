@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 
 // Icono de Menú (Hamburguesa)
 const IconMenuBurger = ({ size = 24, className = "" }) => (
@@ -61,7 +63,7 @@ export const Navbar = () => {
   }, []);
 
   const navLinkClasses =
-    "block py-2 hover:text-indigo-600 transition-colors duration-200";
+    "block py-2 hover:text-blue-600 transition-colors duration-200";
   const mainButtonClass = "black-button"; // Asume que esta clase está definida globalmente
 
   return (
@@ -102,40 +104,38 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             <ul className="flex space-x-4 text-sm font-medium">
               <li>
-                <a
-                  href="#"
-                  className="hover:text-indigo-600 transition-colors duration-200"
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-600"
+                      : "hover:text-blue-600 transition-colors"
+                  }
                 >
-                  ABOUT
-                </a>
+                  INICIO
+                </NavLink>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-indigo-600 transition-colors duration-200"
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-600"
+                      : "hover:text-blue-600 transition-colors"
+                  }
                 >
-                  TOUR
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-indigo-600 transition-colors duration-200"
-                >
-                  PACKAGE
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-indigo-600 transition-colors duration-200"
-                >
-                  CONTACT
-                </a>
+                  CONTACTO
+                </NavLink>
               </li>
             </ul>
-            <a href="#" className={mainButtonClass}>
-              Book Trip
+            <a
+              href="https://wa.me/5215512345678?text=Hola%2C%20quiero%20cotizar%20un%20viaje%20con%20SkyWings%21"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={mainButtonClass}
+            >
+              <ChatBubbleLeftRightIcon className="w-5 h-5 mr-2 inline-block align-text-bottom" />
+              WhatsApp
             </a>
           </div>
 
@@ -179,31 +179,40 @@ export const Navbar = () => {
             {/* mx-2 en movil si no scrolleado para dar espacio al padding del nav */}
             <ul className="flex flex-col space-y-2 text-gray-900">
               <li>
-                <a href="#" className={navLinkClasses}>
-                  ABOUT
-                </a>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-600"
+                      : "hover:text-blue-600 transition-colors"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  INICIO
+                </NavLink>
               </li>
               <li>
-                <a href="#" className={navLinkClasses}>
-                  TOUR
-                </a>
-              </li>
-              <li>
-                <a href="#" className={navLinkClasses}>
-                  PACKAGE
-                </a>
-              </li>
-              <li>
-                <a href="#" className={navLinkClasses}>
-                  CONTACT
-                </a>
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-600"
+                      : "hover:text-blue-600 transition-colors"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  CONTACTO
+                </NavLink>
               </li>
               <li>
                 <a
-                  href="#"
-                  className={`block ${mainButtonClass} mt-4 text-center w-full py-2.5`}
+                  href="https://wa.me/5215512345678?text=Hola%2C%20quiero%20cotizar%20un%20viaje%20con%20SkyWings%21"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`bg-green-500 hover:bg-green-600 text-white font-semibold rounded-4xl mt-4 text-center w-full py-2.5 transition-colors duration-200 flex items-center justify-center gap-2`}
                 >
-                  Book Trip
+                  <ChatBubbleLeftRightIcon className="w-6 h-6" />
+                  WhatsApp
                 </a>
               </li>
             </ul>
