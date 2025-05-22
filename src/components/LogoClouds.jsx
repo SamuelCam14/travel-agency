@@ -13,35 +13,35 @@ export const LogoClouds = () => {
         <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
           <img
             alt="Marriot International Logo"
-            src="marriot.jpeg"
+            src="/images/hoteles/marriot.webp"
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
           />
           <img
             alt="Riu Hotels Logo"
-            src="riu.png"
+            src="/images/hoteles/riu.webp"
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
           />
           <img
             alt="Oasis Hotels Logo"
-            src="oasis.png"
+            src="/images/hoteles/oasis.webp"
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
           />
           <img
             alt="Fiesta Americana Logo"
-            src="fiestaame.png"
+            src="/images/hoteles/fiestaame.webp"
             width={158}
             height={48}
             className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
           />
           <img
             alt="Palace Resorts Logo"
-            src="palace.jpeg"
+            src="/images/hoteles/palace.webp"
             width={158}
             height={48}
             className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"

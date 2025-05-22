@@ -1,11 +1,12 @@
 import { Navbar } from "../components/Navbar";
 import { HeroSection } from "../components/HeroSection";
 import { Steps } from "../components/Steps";
-import { PopularDestination } from "../components/PopularDestination";
 import { LogoClouds } from "../components/LogoClouds";
 import { Discount } from "../components/Discount";
 import { Stats } from "../components/Stats";
-import { InfiniteGallery } from "../components/InfiniteGallery";
+import { Carousel } from "../components/Carousel";
+import { FAQ } from "../components/FAQ";
+import { Footer } from "../components/Footer";
 
 export const Home = () => {
   return (
@@ -13,11 +14,12 @@ export const Home = () => {
       <Navbar />
       <HeroSection />
       <LogoClouds />
-      <PopularDestination />
-      <InfiniteGallery />
+      <Carousel />
       <Steps />
       <Discount />
       <Stats />
+      <FAQ />
+      <Footer />
     </main>
   );
 };

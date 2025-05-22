@@ -1,7 +1,7 @@
 const data = [
-  { id: 1, name: "Year Experience", value: "5+" },
-  { id: 2, name: "Happy Clients", value: "3K" },
-  { id: 3, name: "Overall Rating", value: "4.8" },
+  { id: 1, name: "Años Experiencia", value: "5+" },
+  { id: 2, name: "Clientes Felices", value: "3K" },
+  { id: 3, name: "Valoración General", value: "4.8" },
 ];
 
 export const Stats = () => {
@@ -12,7 +12,7 @@ export const Stats = () => {
           {data.map((data) => (
             <div
               key={data.id}
-              className="mx-auto flex w-full flex-col bg-gray-50 rounded-4xl p-8 hover:scale-105 transition-transform duration-300 ease-out"
+              className="mx-auto flex w-full flex-col bg-gray-50 border border-gray-100 rounded-4xl p-8 hover:scale-105 transition-transform duration-300 ease-out"
             >
               <dt className="sub-text">{data.name}</dt>
               <dd className="order-first text-3xl font-normal tracking-tight text-indigo-600 md:text-5xl">

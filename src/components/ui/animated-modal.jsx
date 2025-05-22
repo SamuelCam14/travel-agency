@@ -75,21 +75,27 @@ export const ModalBody = ({ children, className, data: modalDataProp }) => {
       {open && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, backdropFilter: "blur(10px)" }}
+          animate={{ opacity: 1, backdropFilter: "blur(15px)" }}
           exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+          transition={{ duration: 0.1, ease: "easeInOut" }}
           className="fixed [perspective:800px] [transform-style:preserve-3d] inset-0 h-full w-full flex items-center justify-center z-50"
         >
           <Overlay />
           <motion.div
             ref={modalRef}
             className={cn(
-              "min-h-[50%] w-[90%] md:w-auto max-h-[90%] md:max-w-[60%] lg:max-w-[50%] bg-white border border-gray-200 rounded-4xl relative z-50 flex flex-col flex-1 overflow-hidden shadow-2xl", // bg-white, rounded-4xl, border-gray-200, shadow-2xl. Eliminadas clases dark.
+              "min-h-[50%] w-[90%] md:w-auto max-h-[90%] md:max-w-[60%] lg:max-w-[50%] bg-white border border-gray-200 rounded-4xl relative z-50 flex flex-col flex-1 overflow-hidden shadow-2xl",
               className
             )}
-            initial={{ opacity: 0, scale: 0.5, rotateX: 40, y: 40 }}
+            initial={{ opacity: 0, scale: 0.92, rotateX: 24, y: 32 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, rotateX: 10 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            exit={{ opacity: 0, scale: 0.96, rotateX: 8, y: 12 }}
+            transition={{
+              type: "spring",
+              stiffness: 180,
+              damping: 22,
+              mass: 0.7,
+            }}
             onMouseDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
           >
@@ -141,8 +147,9 @@ const Overlay = ({ className }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, backdropFilter: "blur(10px)" }}
-      exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25, ease: "easeInOut" }}
       className={cn(
         "fixed inset-0 h-full w-full bg-black bg-opacity-50 z-40",
         className
@@ -156,7 +163,7 @@ const CloseIcon = () => {
   return (
     <button
       onClick={() => setOpen(false)}
-      className="absolute top-4 right-4 p-1 rounded-full group hover:bg-gray-100 transition-colors z-50" // Eliminado dark:hover
+      className="absolute top-4 right-4 p-1 rounded-full group hover:bg-gray-100 transition-colors z-50"
       aria-label="Close modal"
     >
       <svg
