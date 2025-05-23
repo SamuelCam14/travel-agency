@@ -15,7 +15,7 @@ export const Stats = () => {
               className="mx-auto flex w-full flex-col bg-gray-50 border border-gray-100 rounded-4xl p-8 hover:scale-105 transition-transform duration-300 ease-out"
             >
               <dt className="sub-text">{data.name}</dt>
-              <dd className="order-first text-3xl font-normal tracking-tight text-blue-600 md:text-5xl">
+              <dd className="order-first text-3xl font-normal tracking-tight text-blue-500 md:text-5xl">
                 {data.value}
               </dd>
             </div>

@@ -49,7 +49,7 @@ export const HeroSection = () => {
       {/* Botón "Conoce más" y decoraciones - Solo para Escritorio */}
       <div className="hidden md:block absolute bottom-0 right-10 border-t-8 border-l-8 border-white bg-white rounded-tl-4xl">
         <button
-          className="relative blue-button flex items-center w-3xs px-6 justify-between bg-blue-600 text-white cursor-pointer"
+          className="relative blue-button flex items-center w-3xs px-6 justify-between bg-blue-500 text-white cursor-pointer"
           onClick={() => {
             const el = document.getElementById("popular-destination-section");
             if (el) {

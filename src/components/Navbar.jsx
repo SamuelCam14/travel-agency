@@ -63,7 +63,7 @@ export const Navbar = () => {
   }, []);
 
   const navLinkClasses =
-    "block py-2 hover:text-blue-600 transition-colors duration-200";
+    "block py-2 hover:text-blue-500 transition-colors duration-200";
   const mainButtonClass = "black-button"; // Asume que esta clase está definida globalmente
 
   return (
@@ -108,8 +108,8 @@ export const Navbar = () => {
                   to="/"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-blue-600"
-                      : "hover:text-blue-600 transition-colors"
+                      ? "text-blue-500"
+                      : "hover:text-blue-500 transition-colors"
                   }
                 >
                   INICIO
@@ -120,8 +120,8 @@ export const Navbar = () => {
                   to="/contact"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-blue-600"
-                      : "hover:text-blue-600 transition-colors"
+                      ? "text-blue-500"
+                      : "hover:text-blue-500 transition-colors"
                   }
                 >
                   CONTACTO
@@ -183,8 +183,8 @@ export const Navbar = () => {
                   to="/"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-blue-600"
-                      : "hover:text-blue-600 transition-colors"
+                      ? "text-blue-500"
+                      : "hover:text-blue-500 transition-colors"
                   }
                   onClick={() => setIsOpen(false)}
                 >
@@ -196,8 +196,8 @@ export const Navbar = () => {
                   to="/contact"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-blue-600"
-                      : "hover:text-blue-600 transition-colors"
+                      ? "text-blue-500"
+                      : "hover:text-blue-500 transition-colors"
                   }
                   onClick={() => setIsOpen(false)}
                 >

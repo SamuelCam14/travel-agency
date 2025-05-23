@@ -9,8 +9,8 @@ export const Footer = () => {
             to="/"
             className={({ isActive }) =>
               isActive
-                ? "text-blue-600"
-                : "hover:text-blue-600 transition-colors"
+                ? "text-blue-500"
+                : "hover:text-blue-500 transition-colors"
             }
           >
             Inicio
@@ -19,8 +19,8 @@ export const Footer = () => {
             to="/contact"
             className={({ isActive }) =>
               isActive
-                ? "text-blue-600"
-                : "hover:text-blue-600 transition-colors"
+                ? "text-blue-500"
+                : "hover:text-blue-500 transition-colors"
             }
           >
             Contacto

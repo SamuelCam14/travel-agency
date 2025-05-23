@@ -19,7 +19,7 @@ const Contact = () => {
       <Navbar />
       <main className="flex-1 w-5/6 mx-auto max-w-5xl py-10 flex flex-col gap-12">
         <section className="text-center mb-8">
-          <h1 className="header-text text-3xl md:text-5xl mb-2 text-blue-700">
+          <h1 className="header-text text-3xl md:text-5xl mb-2 text-blue-500">
             Contáctanos
           </h1>
           <p className="sub-text text-gray-700 max-w-2xl mx-auto">
@@ -41,32 +41,32 @@ const Contact = () => {
               type="text"
               name="name"
               placeholder="Nombre completo"
-              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-500 outline-none"
+              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-400 outline-none"
               required
             />
             <input
               type="email"
               name="email"
               placeholder="Correo electrónico"
-              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-500 outline-none"
+              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-400 outline-none"
               required
             />
             <input
               type="tel"
               name="phone"
               placeholder="Teléfono (opcional)"
-              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-500 outline-none"
+              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-400 outline-none"
             />
             <textarea
               name="message"
               placeholder="¿En qué podemos ayudarte?"
               rows={4}
-              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              className="rounded-3xl border border-gray-200 px-5 py-3 text-base focus:ring-2 focus:ring-blue-400 outline-none resize-none"
               required
             />
             <button
               type="submit"
-              className="blue-button px-8 py-3 rounded-4xl text-white bg-blue-600 hover:bg-blue-700 font-semibold text-lg shadow-md transition-colors mt-2"
+              className="blue-button px-8 py-3 rounded-4xl text-white bg-blue-500 hover:bg-blue-500 font-semibold text-lg shadow-md transition-colors mt-2"
             >
               Enviar mensaje
             </button>
@@ -81,31 +81,31 @@ const Contact = () => {
                 Información
               </h2>
               <div className="flex items-center gap-3">
-                <MapPinIcon className="w-6 h-6 text-blue-600" />
+                <MapPinIcon className="w-6 h-6 text-blue-500" />
                 <span className="text-gray-700 text-base">
                   {AGENCY_ADDRESS}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <PhoneIcon className="w-6 h-6 text-blue-600" />
+                <PhoneIcon className="w-6 h-6 text-blue-500" />
                 <a
                   href={`tel:${AGENCY_PHONE.replace(/\s+/g, "")}`}
-                  className="text-blue-700 hover:underline text-base"
+                  className="text-blue-500 hover:underline text-base"
                 >
                   {AGENCY_PHONE}
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <EnvelopeIcon className="w-6 h-6 text-blue-600" />
+                <EnvelopeIcon className="w-6 h-6 text-blue-500" />
                 <a
                   href={`mailto:${AGENCY_EMAIL}`}
-                  className="text-blue-700 hover:underline text-base"
+                  className="text-blue-500 hover:underline text-base"
                 >
                   {AGENCY_EMAIL}
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <ClockIcon className="w-6 h-6 text-blue-600" />
+                <ClockIcon className="w-6 h-6 text-blue-500" />
                 <span className="text-gray-700 text-base">
                   Lunes a Viernes: 9:00 - 19:00
                 </span>

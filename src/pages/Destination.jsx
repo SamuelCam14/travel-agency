@@ -63,11 +63,11 @@ const Destination = () => {
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-8 flex flex-col gap-8">
         {/* Breadcrumbs */}
         <nav className="text-sm text-gray-500 mb-2 flex gap-2 items-center">
-          <Link to="/" className="hover:text-blue-600">
+          <Link to="/" className="hover:text-blue-500">
             Inicio
           </Link>
           <span>/</span>
-          <span className="text-blue-700 font-semibold">{destino.name}</span>
+          <span className="text-blue-500 font-semibold">{destino.name}</span>
         </nav>
 
         {/* Galería de fotos */}
@@ -128,7 +128,7 @@ const Destination = () => {
           </div>
           {/* Info principal */}
           <div className="flex-1 flex flex-col items-center md:items-start justify-center gap-2">
-            <h1 className="text-3xl md:text-4xl font-bold text-blue-700 mb-1 text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl font-bold text-blue-500 mb-1 text-center md:text-left">
               {destino.name}
             </h1>
             <div className="flex items-center gap-2 mb-2">
@@ -145,7 +145,7 @@ const Destination = () => {
               {mockAtractivos.map((atr, idx) => (
                 <div
                   key={idx}
-                  className="bg-blue-50 rounded-3xl px-4 py-3 text-blue-800 font-medium text-sm shadow-sm"
+                  className="bg-white rounded-3xl px-4 py-3 text-blue-600 font-medium text-sm shadow-sm"
                 >
                   {atr}
                 </div>
@@ -157,7 +157,7 @@ const Destination = () => {
         {/* Conoce un poco más */}
         <section className="flex flex-col md:flex-row gap-6 items-start">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-blue-700 mb-2">
+            <h2 className="text-2xl font-bold text-blue-500 mb-2">
               Conoce un poco más
             </h2>
             <details
@@ -166,14 +166,14 @@ const Destination = () => {
             >
               <summary className="text-lg font-semibold text-gray-900 cursor-pointer flex items-center justify-between">
                 Información completa
-                <span className="ml-2 text-blue-600 group-open:rotate-180 transition-transform">
+                <span className="ml-2 text-blue-500 group-open:rotate-180 transition-transform">
                   ▼
                 </span>
               </summary>
               <div className="mt-4 text-gray-700 text-base leading-relaxed">
                 {mockInfoCompleta}
               </div>
-              <ul className="mt-4 list-disc list-inside text-blue-700 text-sm space-y-1">
+              <ul className="mt-4 list-disc list-inside text-blue-500 text-sm space-y-1">
                 {mockAtractivos.map((atr, idx) => (
                   <li key={idx}>{atr}</li>
                 ))}
@@ -195,17 +195,17 @@ const Destination = () => {
 
         {/* Condiciones del viaje */}
         <section>
-          <h2 className="text-2xl font-bold text-blue-700 mb-4">
+          <h2 className="text-2xl font-bold text-blue-500 mb-4">
             Condiciones del viaje
           </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white rounded-4xl overflow-hidden shadow-md">
               <thead>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-blue-50">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-white">
                     Condición
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-blue-50">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-white">
                     Detalle
                   </th>
                 </tr>

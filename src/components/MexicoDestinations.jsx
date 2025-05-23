@@ -6,6 +6,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalTrigger,
+  useModal, // Added useModal
 } from "./ui/animated-modalv2";
 import {
   PlaneIcon,
@@ -18,6 +19,40 @@ import {
 
 const destinations = destinosNacionales;
 
+// Helper component for the styled close button in the modal footer
+const StyledCloseButton = () => {
+  const { setOpen } = useModal();
+  return (
+    <button
+      onClick={() => setOpen(false)}
+      className="px-6 py-2 bg-white text-black rounded-4xl text-base hover:bg-gray-100 transition-colors"
+    >
+      Cerrar
+    </button>
+  );
+};
+
+// Helper component for the WhatsApp button
+const WhatsAppButton = ({ destinationName }) => {
+  const phoneNumber = "5215551234567"; // Ejemplo de número de teléfono mexicano
+  const message = `¡Hola! Me interesa obtener más información sobre el destino ${destinationName}. ¿Podrían ayudarme con los paquetes disponibles y precios?`;
+
+  const handleWhatsAppClick = () => {
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  return (
+    <button
+      onClick={handleWhatsAppClick}
+      className="px-6 py-2 bg-green-500 text-white rounded-4xl text-base hover:bg-green-600 transition-colors"
+    >
+      WhatsApp
+    </button>
+  );
+};
+
 export const MexicoDestinations = () => {
   // Mobile carousel state
   const [index, setIndex] = useState(0);
@@ -26,8 +61,12 @@ export const MexicoDestinations = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const numDest = destinations.length;
-  const [imageLoaded, setImageLoaded] = useState(true); // true para evitar parpadeo inicial
+  const [imageLoaded, setImageLoaded] = useState(true);
   const [selectedDest, setSelectedDest] = useState(null);
+
+  // Lightbox state
+  const [lightboxImage, setLightboxImage] = useState(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Carousel handlers
   const handlePrev = () => {
@@ -73,7 +112,8 @@ export const MexicoDestinations = () => {
   // Modal info (puedes expandir con más info real de cada destino)
   const getModalInfo = (dest) => ({
     ...dest,
-    images: [dest.image, dest.image, dest.image],
+    // Assuming dest.galleryImages is an array of image URLs for the gallery
+    images: dest.galleryImages || [dest.image, dest.image, dest.image], // Fallback to current behavior
     vuelos: "2 vuelos directos",
     hoteles: "5 hoteles disponibles",
     spots: "10 atractivos turísticos",
@@ -81,6 +121,21 @@ export const MexicoDestinations = () => {
     microfono: "Eventos culturales",
     paracaidas: "Actividades de aventura",
   });
+
+  // Lightbox handlers
+  const handleThumbnailClick = (imageUrl) => {
+    setLightboxImage(imageUrl);
+    setIsLightboxOpen(true);
+    // Optional: Prevent body scroll when lightbox is open, if not already handled by main modal
+    // document.body.style.overflow = "hidden";
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    setLightboxImage(null);
+    // Optional: Restore body scroll if changed above
+    // if (!selectedDest) document.body.style.overflow = "auto"; // Only if main modal is also closing
+  };
 
   return (
     <section className="w-5/6 mx-auto px-4 my-10 md:my-16">
@@ -143,9 +198,9 @@ export const MexicoDestinations = () => {
             <ModalBody>
               {selectedDest && (
                 <ModalContent>
-                  <h4 className="text-lg md:text-2xl text-blue-700 font-bold text-center mb-8">
+                  <h4 className="text-lg md:text-2xl text-blue-500 font-bold text-center mb-8">
                     Descubre{" "}
-                    <span className="px-1 py-0.5 rounded-md bg-blue-50 border border-blue-200">
+                    <span className="px-1 py-0.5 rounded-md bg-white border border-white">
                       {selectedDest.name}
                     </span>
                   </h4>
@@ -155,45 +210,46 @@ export const MexicoDestinations = () => {
                         key={idx}
                         src={image}
                         alt={selectedDest.name + " galería " + (idx + 1)}
-                        className="rounded-lg h-20 w-20 md:h-32 md:w-32 object-cover shrink-0 border border-blue-100 bg-white"
+                        className="rounded-lg h-20 w-20 md:h-32 md:w-32 object-cover shrink-0 border border-white bg-white cursor-pointer hover:opacity-80 transition-opacity"
                         loading="lazy"
+                        onClick={() => handleThumbnailClick(image)}
                       />
                     ))}
                   </div>
                   <div className="py-6 flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto">
                     <div className="flex items-center justify-center">
-                      <PlaneIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <PlaneIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).vuelos}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <ElevatorIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <ElevatorIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).hoteles}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <VacationIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <VacationIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).spots}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <FoodIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <FoodIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).comida}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <MicIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <MicIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).microfono}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <ParachuteIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <ParachuteIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).paracaidas}
                       </span>
                     </div>
@@ -201,57 +257,54 @@ export const MexicoDestinations = () => {
                 </ModalContent>
               )}
               <ModalFooter className="gap-4">
-                <button className="px-2 py-1 bg-gray-200 text-black border border-gray-300 rounded-md text-sm w-28">
-                  Cerrar
-                </button>
+                <StyledCloseButton />
+                <WhatsAppButton destinationName={selectedDest?.name} />
               </ModalFooter>
+              {/* Lightbox for image zoom */}
+              {isLightboxOpen && lightboxImage && (
+                <div
+                  className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] p-4"
+                  onClick={closeLightbox}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Vista ampliada de imagen"
+                >
+                  <div
+                    className="relative bg-white p-2 md:p-4 rounded-xl max-w-[90vw] max-h-[90vh] flex items-center justify-center"
+                    onClick={(e) =>
+                      e.stopPropagation()
+                    } /* Prevent click through to overlay */
+                  >
+                    <img
+                      src={lightboxImage}
+                      alt="Vista ampliada"
+                      className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                    />
+                    <button
+                      onClick={closeLightbox}
+                      className="absolute top-2 right-2 md:top-3 md:right-3 bg-white text-black rounded-full p-1.5 md:p-2 hover:bg-gray-200 transition-colors"
+                      aria-label="Cerrar vista ampliada"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-5 h-5 md:w-6 md:h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
             </ModalBody>
           </Modal>
-          {/* Carousel controls */}
-          <div className="flex justify-between items-center mt-4">
-            <button
-              className="rounded-full bg-blue-600 text-white w-10 h-10 flex items-center justify-center shadow-md hover:bg-blue-700 transition-colors"
-              onClick={handlePrev}
-              aria-label="Anterior"
-              disabled={animating}
-            >
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <div className="flex gap-2">
-              {destinations.map((_, idx) => (
-                <span
-                  key={idx}
-                  className={`inline-block w-2 h-2 rounded-full transition-all duration-200 ${
-                    idx === index ? "bg-blue-600 scale-125" : "bg-gray-300"
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              className="rounded-full bg-blue-600 text-white w-10 h-10 flex items-center justify-center shadow-md hover:bg-blue-700 transition-colors"
-              onClick={handleNext}
-              aria-label="Siguiente"
-              disabled={animating}
-            >
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
       {/* Desktop grid */}
@@ -295,9 +348,9 @@ export const MexicoDestinations = () => {
             <ModalBody>
               {selectedDest && selectedDest.name === dest.name && (
                 <ModalContent>
-                  <h4 className="text-lg md:text-2xl text-blue-700 font-bold text-center mb-8">
+                  <h4 className="text-lg md:text-2xl text-blue-500 font-bold text-center mb-8">
                     Descubre{" "}
-                    <span className="px-1 py-0.5 rounded-md bg-blue-50 border border-blue-200">
+                    <span className="px-1 py-0.5 rounded-md bg-white border border-white">
                       {selectedDest.name}
                     </span>
                   </h4>
@@ -307,45 +360,46 @@ export const MexicoDestinations = () => {
                         key={idx}
                         src={image}
                         alt={selectedDest.name + " galería " + (idx + 1)}
-                        className="rounded-lg h-20 w-20 md:h-32 md:w-32 object-cover shrink-0 border border-blue-100 bg-white"
+                        className="rounded-lg h-20 w-20 md:h-32 md:w-32 object-cover shrink-0 border border-white bg-white cursor-pointer hover:opacity-80 transition-opacity"
                         loading="lazy"
+                        onClick={() => handleThumbnailClick(image)}
                       />
                     ))}
                   </div>
                   <div className="py-6 flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto">
                     <div className="flex items-center justify-center">
-                      <PlaneIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <PlaneIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).vuelos}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <ElevatorIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <ElevatorIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).hoteles}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <VacationIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <VacationIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).spots}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <FoodIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <FoodIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).comida}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <MicIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <MicIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).microfono}
                       </span>
                     </div>
                     <div className="flex items-center justify-center">
-                      <ParachuteIcon className="mr-1 text-blue-700 h-4 w-4" />
-                      <span className="text-blue-700 text-sm">
+                      <ParachuteIcon className="mr-1 text-blue-500 h-4 w-4" />
+                      <span className="text-black text-sm">
                         {getModalInfo(selectedDest).paracaidas}
                       </span>
                     </div>
@@ -353,10 +407,55 @@ export const MexicoDestinations = () => {
                 </ModalContent>
               )}
               <ModalFooter className="gap-4">
-                <button className="px-2 py-1 bg-gray-200 text-black border border-gray-300 rounded-md text-sm w-28">
-                  Cerrar
-                </button>
+                <StyledCloseButton />
+                <WhatsAppButton destinationName={selectedDest?.name} />
               </ModalFooter>
+              {/* Lightbox for image zoom - Desktop */}
+              {isLightboxOpen &&
+                lightboxImage &&
+                selectedDest &&
+                selectedDest.name === dest.name && (
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] p-4"
+                    onClick={closeLightbox}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Vista ampliada de imagen"
+                  >
+                    <div
+                      className="relative bg-white p-2 md:p-4 rounded-xl max-w-[90vw] max-h-[90vh] flex items-center justify-center"
+                      onClick={(e) =>
+                        e.stopPropagation()
+                      } /* Prevent click through to overlay */
+                    >
+                      <img
+                        src={lightboxImage}
+                        alt="Vista ampliada"
+                        className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                      />
+                      <button
+                        onClick={closeLightbox}
+                        className="absolute top-2 right-2 md:top-3 md:right-3 bg-white text-black rounded-full p-1.5 md:p-2 hover:bg-gray-200 transition-colors"
+                        aria-label="Cerrar vista ampliada"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                          className="w-5 h-5 md:w-6 md:h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
             </ModalBody>
           </Modal>
         ))}
