@@ -149,7 +149,7 @@ const Overlay = ({ className }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.25, ease: "easeInOut" }}
+      transition={{ duration: 0, ease: "easeInOut" }}
       className={cn(
         "fixed inset-0 h-full w-full bg-black bg-opacity-50 z-40",
         className

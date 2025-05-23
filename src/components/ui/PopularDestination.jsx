@@ -286,12 +286,22 @@ export const PopularDestination = ({ destinations }) => {
                       <ModalContent>
                         {dataFromProp ? (
                           <>
+                            {/* Imagen principal */}
                             <img
                               src={dataFromProp.mainImage}
                               alt={dataFromProp.destinationName}
-                              className="w-full h-48 md:h-64 object-cover rounded-4xl mb-4"
+                              className="w-full h-48 md:h-64 object-cover rounded-4xl mb-2"
                               loading="lazy"
                             />
+                            {/* CatchyPhrase como pie de foto, arriba y delicado */}
+                            {dataFromProp.catchyPhrase && (
+                              <div
+                                className="sub-text text-blue-500 text-center mb-6 mt-1"
+                                style={{ opacity: 0.85 }}
+                              >
+                                {dataFromProp.catchyPhrase}
+                              </div>
+                            )}
                             <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">
                               Aventura en {dataFromProp.destinationName}
                             </h3>
@@ -301,6 +311,7 @@ export const PopularDestination = ({ destinations }) => {
                             <p className="text-lg font-semibold text-blue-500 mb-4">
                               {dataFromProp.price}
                             </p>
+                            {/* Galería con lightbox modal mejorado */}
                             {dataFromProp.galleryImages &&
                               dataFromProp.galleryImages.length > 0 && (
                                 <div className="mb-6">
@@ -310,15 +321,34 @@ export const PopularDestination = ({ destinations }) => {
                                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                     {dataFromProp.galleryImages.map(
                                       (image, idx) => (
-                                        <img
-                                          key={`gallery-${idx}`}
-                                          src={image}
-                                          alt={`${
-                                            dataFromProp.destinationName
-                                          } galería ${idx + 1}`}
-                                          className="w-full h-24 object-cover rounded-2xl"
-                                          loading="lazy"
-                                        />
+                                        <Modal key={`gallery-modal-${idx}`}>
+                                          <ModalTrigger asChild>
+                                            <img
+                                              src={image}
+                                              alt={`${
+                                                dataFromProp.destinationName
+                                              } galería ${idx + 1}`}
+                                              className="w-full h-24 object-cover rounded-2xl cursor-pointer hover:scale-105 transition-transform"
+                                              loading="lazy"
+                                            />
+                                          </ModalTrigger>
+                                          <ModalBody>
+                                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
+                                              <div className="relative">
+                                                <CloseGalleryButton />
+                                                <img
+                                                  src={image}
+                                                  alt={`Vista ampliada de ${dataFromProp.destinationName}`}
+                                                  className="max-w-full max-h-[90vh] object-contain rounded-3xl shadow-2xl"
+                                                  loading="lazy"
+                                                  onClick={(e) =>
+                                                    e.stopPropagation()
+                                                  }
+                                                />
+                                              </div>
+                                            </div>
+                                          </ModalBody>
+                                        </Modal>
                                       )
                                     )}
                                   </div>
@@ -374,6 +404,43 @@ export const PopularDestination = ({ destinations }) => {
                                   </ul>
                                 </div>
                               )}
+                            {/* Testimonios */}
+                            {dataFromProp.testimonials &&
+                              dataFromProp.testimonials.length > 0 && (
+                                <div className="mb-6">
+                                  <h4 className="font-semibold text-md text-gray-700 mb-2">
+                                    Testimonios de viajeros
+                                  </h4>
+                                  <div className="flex flex-col gap-3">
+                                    {dataFromProp.testimonials.map(
+                                      (testimonial, idx) => (
+                                        <div
+                                          key={`testimonial-${idx}`}
+                                          className="flex items-center gap-3 bg-blue-50 rounded-3xl px-4 py-3 shadow-sm"
+                                        >
+                                          <img
+                                            src={testimonial.avatar}
+                                            alt={testimonial.name}
+                                            className="w-10 h-10 rounded-full object-cover border-2 border-blue-200"
+                                            loading="lazy"
+                                            onError={(e) => {
+                                              e.target.style.display = "none";
+                                            }}
+                                          />
+                                          <div>
+                                            <p className="text-gray-800 text-sm italic">
+                                              “{testimonial.text}”
+                                            </p>
+                                            <span className="text-xs text-blue-700 font-semibold">
+                                              {testimonial.name}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              )}
                             <p className="text-xs text-center text-gray-500 mt-4">
                               Contáctanos para reservar:{" "}
                               {dataFromProp.bookingContact}
@@ -383,7 +450,7 @@ export const PopularDestination = ({ destinations }) => {
                           <p>Cargando detalles...</p>
                         )}
                       </ModalContent>
-                      <ModalFooter className="gap-3">
+                      <ModalFooter className="gap-3 flex flex-col md:flex-row md:justify-end items-stretch md:items-center mt-2">
                         <ModalCloseButtonInFooter className="px-4 py-2 bg-gray-200 text-gray-700 rounded-4xl hover:bg-gray-300 transition-colors text-sm font-medium">
                           Cerrar
                         </ModalCloseButtonInFooter>
@@ -394,10 +461,13 @@ export const PopularDestination = ({ destinations }) => {
                               dataFromProp.price
                             )
                           }
-                          className="px-4 py-2 bg-blue-500 text-white rounded-4xl hover:bg-blue-500 transition-colors text-sm font-medium"
+                          className="px-4 py-2 bg-blue-500 text-white rounded-4xl hover:bg-blue-600 transition-colors text-sm font-semibold shadow-md"
                         >
                           Reservar este viaje
                         </button>
+                        <span className="text-xs text-blue-500 font-medium text-center md:text-left mt-2 md:mt-0">
+                          ¡Cupos limitados para la próxima salida!
+                        </span>
                       </ModalFooter>
                     </>
                   )}
@@ -410,3 +480,29 @@ export const PopularDestination = ({ destinations }) => {
     </section>
   );
 };
+
+function CloseGalleryButton() {
+  const { setOpen } = useModal();
+  return (
+    <span
+      onClick={() => setOpen(false)}
+      className="absolute top-2 right-2 md:top-3 md:right-3 cursor-pointer z-50 select-none"
+      aria-label="Cerrar imagen ampliada"
+      style={{ lineHeight: 0 }}
+    >
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.7))" }}
+      >
+        <path d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </span>
+  );
+}

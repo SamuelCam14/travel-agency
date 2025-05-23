@@ -94,6 +94,18 @@ export const destinosInternacionales = [
                 "Experiencia tradicional de baño turco.",
             ],
             bookingContact: "Llama al 1-800-EXPLORA-TR o visita nuestro sitio web.",
+            testimonials: [
+                {
+                    name: "Ana G.",
+                    text: "¡El mejor viaje de mi vida! Todo estuvo perfectamente organizado.",
+                    avatar: "/images/avatars/ana.webp"
+                },
+                {
+                    name: "Carlos M.",
+                    text: "Turquía superó mis expectativas. Los guías y la atención fueron excelentes.",
+                    avatar: "/images/avatars/carlos.webp"
+                }
+            ],
         },
     },
     {
@@ -134,6 +146,13 @@ export const destinosInternacionales = [
                 "Excursión de un día a Pompeya.",
             ],
             bookingContact: "Reserva tu sueño italiano al 1-800-CIAO-BELLA.",
+            testimonials: [
+                {
+                    name: "Lucía B.",
+                    text: "Italia es un sueño hecho realidad. La comida y los paisajes, inolvidables.",
+                    avatar: "/images/avatars/lucia.webp"
+                }
+            ],
         },
     },
     {
@@ -173,6 +192,13 @@ export const destinosInternacionales = [
                 "Experiencia de sumo (según temporada).",
             ],
             bookingContact: "Descubre Japón: 1-888-ZEN-TOUR.",
+            testimonials: [
+                {
+                    name: "Miguel T.",
+                    text: "Japón me fascinó. Todo fue puntual y lleno de detalles culturales.",
+                    avatar: "/images/avatars/miguel.webp"
+                }
+            ],
         },
     },
     {
@@ -213,6 +239,13 @@ export const destinosInternacionales = [
                 "Excursión a Delfos desde Atenas.",
             ],
             bookingContact: "Tu odisea griega te espera: 1-800-MYTHOS-GO.",
+            testimonials: [
+                {
+                    name: "Sofía R.",
+                    text: "Las islas griegas son mágicas. El tour fue cómodo y bien planeado.",
+                    avatar: "/images/avatars/sofia.webp"
+                }
+            ],
         },
     },
     {
@@ -253,6 +286,13 @@ export const destinosInternacionales = [
                 "Caminata al amanecer en el Monte Batur.",
             ],
             bookingContact: "Rejuvenece en Bali: 1-877-ISLAND-ZEN.",
+            testimonials: [
+                {
+                    name: "Valeria P.",
+                    text: "Bali es un paraíso. El retiro fue justo lo que necesitaba para recargarme.",
+                    avatar: "/images/avatars/valeria.webp"
+                }
+            ],
         },
     },
     {
@@ -294,6 +334,13 @@ export const destinosInternacionales = [
                 "Paseo en globo sobre la ribera oeste de Luxor.",
             ],
             bookingContact: "Tu aventura egipcia: 1-800-NILE-KING.",
+            testimonials: [
+                {
+                    name: "Javier L.",
+                    text: "Egipto es historia viva. El crucero por el Nilo fue espectacular.",
+                    avatar: "/images/avatars/javier.webp"
+                }
+            ],
         },
     },
 ];
