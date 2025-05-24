@@ -7,6 +7,7 @@ import { Stats } from "../components/Stats";
 import { Carousel } from "../components/Carousel";
 import { FAQ } from "../components/FAQ";
 import { Footer } from "../components/Footer";
+import LovedByTravelersSection from "../components/LovedByTravelersSection";
 
 export const Home = () => {
   return (
@@ -18,6 +19,7 @@ export const Home = () => {
       <Steps />
       <Discount />
       <Stats />
+      <LovedByTravelersSection />
       <FAQ />
       <Footer />
     </main>
